@@ -1,32 +1,60 @@
+<!--
+
+-->
+
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | FM_Personal_Page</title>
-  </head>
-  <body style="text-align: center">
-    <canvas id="unity-canvas" width=1360 height=768 style="width: 1360px; height: 768px; background: #231F20"></canvas>
-    <script src="Build/18.loader.js"></script>
-    <script>
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/18.data",
-        frameworkUrl: "Build/18.framework.js",
-        codeUrl: "Build/18.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Franco Martinetto",
-        productName: "FM_Personal_Page",
-        productVersion: "0.1",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <title>FM_Personal_Page</title>
+  </head>
+  <body>
+    <div class="webgl-wrapper">
+      <div class="aspect"></div>
+      <div class="webgl-content">
+        <div id="unityContainer">
+          <canvas
+            id="unity-canvas"
+            style="background: #231F20"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script src="MyLoader.js"></script>
+    <script>
+            createUnityInstance(document.querySelector("#unity-canvas"), {
+              dataUrl: "Build/20.data",
+              frameworkUrl: "Build/20.framework.js",
+              codeUrl: "Build/20.wasm",
+              streamingAssetsUrl: "StreamingAssets",
+              companyName: "Franco Martinetto",
+              productName: "FM_Personal_Page",
+              productVersion: "0.1",
+            }).then((unityInstance) => {
+              myGameInstance = unityInstance;
+            });
+    </script>
+
+    <!-- check for F key press to toggle full screen -->
+    <script>
+      var isFullscreen = false;
+
+      document.addEventListener('keydown', function (event) {
+        if (event.which === 70) {
+          if (!isFullscreen) {
+            myGameInstance.SetFullscreen(1);
+          } else {
+            myGameInstance.SetFullscreen(0);
+          }
+          isFullscreen = !isFullscreen;
+        }
       });
     </script>
   </body>
